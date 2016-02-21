@@ -24,8 +24,8 @@ public class ServerModel {
 	@Column(name="host")
 	String host;
 	
-	@Column(name="password")
-	String password;
+	@Column(name="port")
+	int port;
 
 	public int getId_server() {
 		return id_server;
@@ -59,12 +59,12 @@ public class ServerModel {
 		this.host = host;
 	}
 
-	public String getPassword() {
-		return password;
+	public int getPort() {
+		return port;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 }
