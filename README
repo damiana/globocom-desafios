@@ -6,3 +6,24 @@ Desafio 2: criar um proxy HTTPS reverso com o recurso SSL SNI.
 
 
 INICIO: 17/02/2016
+
+URLs para acesso a api rest:
+
+- lista os servidores
+http://localhost:8080/rest/server/list
+
+
+- busca um servidor atrás do ID
+http://localhost:8080/rest/server/search/1
+
+
+- modifica os dados de um servidor
+http://localhost:8080/rest/server/modify
+
+
+- cadastra um novo servidor
+http://localhost:8080/rest/server/register
+
+
+- deleta um servidor atrás do ID
+http://localhost:8080/rest/server/delete/1
