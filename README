@@ -10,19 +10,19 @@ INICIO: 17/02/2016
 URLs para acesso a api rest:
 
 - lista os servidores
-http://localhost:8080/rest/server/list
+http://localhost:8080/catalog/rest/server/list
 
 
 - busca um servidor atrás do ID
-http://localhost:8080/rest/server/search/1
+http://localhost:8080/catalog/rest/server/search/1
 
 
 - modifica os dados de um servidor
-http://localhost:8080/rest/server/modify
+http://localhost:8080/catalog/rest/server/modify
 
 
 - cadastra um novo servidor
-http://localhost:8080/rest/server/register
+http://localhost:8080/catalog/rest/server/register
 
 
 - deleta um servidor atrás do ID
