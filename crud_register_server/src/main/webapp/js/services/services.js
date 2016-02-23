@@ -33,3 +33,5 @@ services.factory('SearchServerFactory', function ($resource) {
         show: { method: 'GET'}
     })
 });
+
+

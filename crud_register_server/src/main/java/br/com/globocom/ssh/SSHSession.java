@@ -3,6 +3,7 @@ package br.com.globocom.ssh;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -18,6 +19,8 @@ public class SSHSession {
 	String host;
 	String password;
 	
+	ArrayList<String> listServices = new ArrayList<String>();
+	
 	public SSHSession(String user, String host, int port) {
 		
 		this.user = user;
@@ -30,13 +33,13 @@ public class SSHSession {
 		try {
 
 			JSch jsch = new JSch();
-
+			
 			session = jsch.getSession(user,host,port);
 			
 			session.setUserInfo(new SSHUserInfo());
 			session.connect();
 			
-			String listServices = 
+			String listServicesInstalled = 
 					" initctl list | egrep -v  "
 							+ " \" stop/waiting|^tty\"; service --status-all 2>&1 | egrep -v "
 							+ " \"\\[ (\\?) \\]\"\\ ";
@@ -44,15 +47,18 @@ public class SSHSession {
 			channel = (ChannelExec) session.openChannel("exec");
 			
 			InputStream stream = channel.getInputStream();
-			channel.setCommand(listServices);	        
+			channel.setCommand(listServicesInstalled);	        
 			channel.connect();
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             String line;
-            while ((line = reader.readLine()) != null && true)
-            	System.out.println("line " + line);
-
-	        System.out.println("Finished sending commands!");
+            
+            while ((line = reader.readLine()) != null && true) {
+            	//System.out.println("line " + line);
+            	listServices.add(line);
+            }
+            
+	        //System.out.println("Finished sending commands!" + listServices.size());
 	        
 	        
 		} catch (Exception e) {
@@ -63,7 +69,11 @@ public class SSHSession {
 
 			if(channel != null) channel.disconnect(); 
 			if(session !=null ) session.disconnect();
-
 		}
 	}
+	
+	public ArrayList<String> getListServices() {
+		return listServices;
+	}
+	
 }

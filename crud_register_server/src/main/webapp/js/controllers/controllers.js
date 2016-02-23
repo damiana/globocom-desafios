@@ -13,8 +13,8 @@ app.run(function ($rootScope, $templateCache) {
   });
 });
 
-app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFactory', 'SearchServerFactory', '$location',
-  function ($scope, DeleteServerFactory, ListServersFactory, SearchServerFactory, $location) {
+app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFactory', 'SearchServerFactory', '$location', '$http',
+  function ($scope, DeleteServerFactory, ListServersFactory, SearchServerFactory, $location, $http) {
 
     /* callback for ng-click 'editUser': */
     $scope.editServer = function (serverId) {
@@ -34,6 +34,11 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
     };
 
     $scope.servers = ListServersFactory.query();
+
+      $http.get('http://localhost:8080/catalog/ServerServlet')
+       .then(function(response){
+          $scope.appsServer = response.data;                
+        });
   }]);
 
 
