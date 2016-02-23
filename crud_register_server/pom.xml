@@ -26,11 +26,6 @@
 			<version>2.22.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.1.0.Final</version>
-		</dependency>
-		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>2.22.2</version>
@@ -39,18 +34,24 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.2.4.Final</version>
+			<version>4.2.0.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
+			<groupId>org.hibernate.common</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>4.0.1.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
-		</dependency>
+		</dependency>				
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+		</dependency>		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -73,9 +74,19 @@
 			<artifactId>jsch</artifactId>
 			<version>0.1.53</version>
 		</dependency>
-
-
 	</dependencies>
+	<profiles>
+		<profile>
+			<id>javadoc-jdk8+</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<javadoc.options>-Xdoclint:none</javadoc.options>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<finalName>crud_register_server</finalName>
 		<plugins>
@@ -86,6 +97,18 @@
 				<configuration>
 					<path>/</path>
 					<port>8080</port>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+					<meminitial>1024m</meminitial>
+					<maxmem>2024m</maxmem>
 				</configuration>
 			</plugin>
 		</plugins>
