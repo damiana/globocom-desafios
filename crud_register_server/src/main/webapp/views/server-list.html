@@ -1,0 +1,45 @@
+ <div class="span6">
+  <table class="table table-striped table-condensed">
+    <thead>
+      <tr>
+        <th style="min-width: 80px;">Username</th>
+        <th style="min-width: 80px;">Host</th>
+        <th style="width:20px;">&nbsp;</th>
+        <th style="width:20px;">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="server in servers">
+        <td>{{ server.username }}</td>
+        <td>{{ server.host }}</td>
+        <td><a ng-click="editServer(server.id_server)" class="btn btn-small btn-primary">edit</a></td>
+        <td><a ng-click="deleteServer(server.id_server)" class="btn btn-small btn-danger">delete</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <a ng-click="createNewServer()" class="btn btn-small btn-default">create new server</a>
+</div>
+
+<!-- 
+  <div id="menu">
+    <div class="panel list-group">
+      <div ng-repeat="server in servers">
+        <a href="" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">{{ server.username }} 
+
+    <span class="pull-right">
+      <button ng-click="editServer(server.id)" class="btn btn-xs btn-info">EDIT</button>
+      <button ng-click="deleteServer(server.id)" class="btn btn-xs btn-warning">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
+    </span>
+        </a>
+
+        <div id="sm" class="sublinks collapse">
+          <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> inboxadada qjjq  jq</a>
+          <a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> sent</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   -->

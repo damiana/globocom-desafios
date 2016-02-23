@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Server detail</h1>
+
+  <form novalidate="novalidate" class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="inputServerName">Server:</label>
+
+      <div class="controls">
+        <input type="text" id="inputServerName" ng-model="server.name_server"/>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="inputUsername">Username:</label>
+
+      <div class="controls">
+        <input type="text" id="inputUsername" ng-model="server.username"/>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputHost">Host:</label>
+
+      <div class="controls">
+        <input type="text" id="inputHost" ng-model="server.host"/>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPort">Port:</label>
+
+      <div class="controls">
+        <input type="text" id="inputPort" ng-model="server.port"/>
+      </div>
+    </div>    
+    <div class="control-group">
+      <div class="controls">
+        <a ng-click="cancel()" class="btn btn-small btn-default">cancel</a>
+        <a ng-click="updateServer()" class="btn btn-small btn-primary">update server</a>
+      </div>
+    </div>
+  </form>
+</div>

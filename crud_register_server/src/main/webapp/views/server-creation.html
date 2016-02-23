@@ -1,0 +1,43 @@
+<div class="container">
+  <h1>Create a new server</h1>
+
+  <form novalidate="novalidate" class="form-horizontal">
+
+    <div class="control-group">
+      <label class="control-label" for="inputServername">Server:</label>
+
+      <div class="controls">
+        <input type="text" id="inputServername" ng-model="server.name_server" placeholder="Server"/>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="inputUsername">Username:</label>
+
+      <div class="controls">
+        <input type="text" id="inputUsername" ng-model="server.username" placeholder="Username"/>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputHost">Host:</label>
+
+      <div class="controls">
+        <input type="text" id="inputHost" ng-model="server.host" placeholder="Host"/>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="inputPort">Port:</label>
+
+      <div class="controls">
+        <input type="text" id="inputPort" ng-model="server.port" placeholder="Port"/>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <a ng-click="createNewServer()" class="btn btn-small btn-primary">create new server</a>
+      </div>
+    </div>
+  </form>
+</div>
