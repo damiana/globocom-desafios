@@ -27,6 +27,8 @@
 </div> -->
 
   <div id="menu">
+    <a ng-click="createNewServer()" class="btn btn-small btn-default">create new server</a>&nbsp;&nbsp;
+    <a ng-click="setDataUserFromServer(servers)" class="btn btn-small btn btn-info" >Fetch data from server</a><p>
     <div class="panel list-group">
       <div ng-repeat="server in servers">
         <a href="" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">{{ server.username }} 
@@ -40,7 +42,7 @@
         </a>
 
         <div id="sm" class="sublinks collapse">
-          <a class="list-group-item small" ng-repeat="apps in appsServer.services" ><span class="glyphicon glyphicon-chevron-right"></span> {{ apps }}</a>
+          <a class="list-group-item small" ><span class="glyphicon glyphicon-chevron-right"></span> TESTE --- TESTE</a>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ package br.com.globocom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,72 +14,73 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import br.com.globocom.EntityManager.JpaEntityManager;
 import br.com.globocom.model.ServerModel;
-import br.com.globocom.ssh.SSHSession;
 
-/**
- * Servlet implementation class ServerServlet
- */
+
 public class ServerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	JpaEntityManager JPAEM = new JpaEntityManager();
-	EntityManager objEM = JPAEM.getEntityManager();
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public ServerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		List<ServerModel> sm = objEM.createQuery(
-                "SELECT s FROM ServerModel s", ServerModel.class).getResultList();
-	
 		response.setContentType("application/json");
 		
-		
-		PrintWriter out = response.getWriter();
+        //String user = (String)request.getParameter("user");
+        //String host = (String)request.getParameter("host");
+        //String password = (String)request.getParameter("password");
+        
+        //int port = Integer.parseInt(request.getParameter("port"));
+        
+       // System.out.println("user " + user);
+        //System.out.println("host " + host);
+        //System.out.println("port " + port);
+       // System.out.println("password " + password);
+        
+        ArrayList<ServerModel> sm = new ArrayList<ServerModel>();
+        //sm = (ArrayList<ServerModel>)request.getAttribute("servers");
 
-	    String user = sm.get(0).getUsername();
-	    String host = sm.get(0).getHost();
-	    int port = sm.get(0).getPort();
-
-	    SSHSession sshsession = new SSHSession(user, host, port);
-	    sshsession.execCreateFile();
-
-
-	    JSONObject obj = new JSONObject();
-	    
-	    obj.put("servidor", user);
-	    
-	    JSONArray listServices = new JSONArray();
-	    JSONArray listPackges = new JSONArray();
-	    
-	    for (int i = 0; i < sshsession.getListServices().size(); i++) {
-			//System.out.println(sshsession.getListServices().get(i));
+        ///(ArrayList<ServerModel>)request.getAttribute("servers");
+        
+        //for (int i = 0; i < array.length; i++) {
 			
-			listServices.add(sshsession.getListServices().get(i));
+		//}
+        
+        PrintWriter out = response.getWriter();
+        
+        //for (int i = 0; i < sm.size(); i++) {
+        	 out.print("Minha Servlet TESTE ULTIMO " + (String)request.getParameter("listserver" ));
+		//}
+        	 //out.(jsonObject);
+        	 out.flush();
+        
+		
+/*	    JSONObject obj = new JSONObject();
+	    JSONArray listServices = new JSONArray();
+	    
+		for (int i = 0; i < sm.size(); i++) {
+			
+		    String user = sm.get(i).getUsername();
+		    String host = sm.get(i).getHost();
+		    int port = sm.get(i).getPort();
+
+		    SSHSession sshsession = new SSHSession(user, host, port);
+		    sshsession.execCreateFile();
+
+		    obj.put("servidor", user);		    
+
+		    for (int j = 0; j < sshsession.getListServices().size(); j++) {			
+				listServices.add(sshsession.getListServices().get(j));
+			}
 		}
+		
 		    
 	    obj.put("services", listServices);
-	    
-	    listPackges.add("br");
-	    listPackges.add("breeee");
-	    listPackges.add("br2313");
-	    listPackges.add("br10000");
-	    
-	    obj.put("packges", listPackges);
-	    
-	    out.println(obj);
+	    */
+	   
 	}
 
 	/**
