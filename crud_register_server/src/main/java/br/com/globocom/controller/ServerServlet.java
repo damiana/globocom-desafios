@@ -11,15 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import br.com.globocom.model.ServerModel;
 
 
 public class ServerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger("InfoLogging");
+			
     public ServerServlet() {
         super();
     }
@@ -27,36 +31,39 @@ public class ServerServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		response.setContentType("application/json");
+		//response.setContentType("application/json");
 		
-        //String user = (String)request.getParameter("user");
-        //String host = (String)request.getParameter("host");
-        //String password = (String)request.getParameter("password");
-        
-        //int port = Integer.parseInt(request.getParameter("port"));
-        
-       // System.out.println("user " + user);
-        //System.out.println("host " + host);
-        //System.out.println("port " + port);
-       // System.out.println("password " + password);
-        
-        ArrayList<ServerModel> sm = new ArrayList<ServerModel>();
-        //sm = (ArrayList<ServerModel>)request.getAttribute("servers");
+		LOGGER.info("******** INICIO log *******");
 
-        ///(ArrayList<ServerModel>)request.getAttribute("servers");
-        
-        //for (int i = 0; i < array.length; i++) {
+		String serverList = (String)request.getParameter("serverList");
+		
+		LOGGER.info("\n******** SERVER-LIST PARAM  ******* " + serverList +"\n");
+
+		LOGGER.info("\n******** tamanho array  ******* " + serverList +"\n");
+		
+		//for (int i = 0; i < size; i++) {
 			
 		//}
-        
-        PrintWriter out = response.getWriter();
-        
-        //for (int i = 0; i < sm.size(); i++) {
-        	 out.print("Minha Servlet TESTE ULTIMO " + (String)request.getParameter("listserver" ));
-		//}
-        	 //out.(jsonObject);
-        	 out.flush();
-        
+		Gson gson = new Gson();
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(serverList);
+		
+		for (int i = 0; i < jsonArray.size(); i++) {
+			LOGGER.info("\n******** jsonArray FOR  ******* " + jsonArray.get(i) +"\n");
+			JsonElement server = jsonParser.parse(jsonArray.get(i).toString());
+			JsonElement id_server = server.getAsJsonObject().get("id_server");
+			JsonElement name_server = server.getAsJsonObject().get("name_server");
+			
+			LOGGER.info("\n******** ELEMENTS FOR  ******* " + id_server + " " + name_server +"\n");
+		}
+		
+		//LOGGER.info("\n******** jsonArray array  ******* " + jsonArray.size() +"\n");
+		//LOGGER.info("\n******** jsonArray NORMAL  ******* " + jsonArray +"\n");
+		
+		
+		LOGGER.info("******** END log *******");
+		
+		
 		
 /*	    JSONObject obj = new JSONObject();
 	    JSONArray listServices = new JSONArray();

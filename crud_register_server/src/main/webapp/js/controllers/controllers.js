@@ -15,7 +15,7 @@ app.run(function ($rootScope, $templateCache) {
 
 app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFactory', 'SearchServerFactory', '$location', '$http',
   function ($scope, DeleteServerFactory, ListServersFactory, SearchServerFactory, $location, $http) {
-
+	
     /* callback for ng-click 'editUser': */
     $scope.editServer = function (serverId) {
       $location.path('/server-detail/' + serverId);
@@ -35,18 +35,18 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
 
     /* callback for ng-click 'update list': */
     $scope.setDataUserFromServer = function() {
-    	alert("asdadsdsdsdas " + $scope.servers);
     	
-    	$http({
+    	$scope.listserver = $scope.servers;
+    	
+       	$http({
     	    method: 'GET',
     	    url: 'http://localhost:8080/catalog/ServerServlet',
-    	    //params: { user: $scope.user, host: $scope.host,
-    	    	//		port: $scope.port, password: $scope.password }
-    	    params: {listserver: $scope.servers}
+    	    params: { serverList: $scope.listserver }
     	
-    		}).then(function(response) {
-    			console.log(response);
-    		});
+    	}).then(function(response) {
+    		 console.log(response);
+    	});
+    	
     };
     
     $scope.servers = ListServersFactory.query();
