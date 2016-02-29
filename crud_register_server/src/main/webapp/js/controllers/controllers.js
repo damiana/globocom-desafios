@@ -34,16 +34,17 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
     };
 
     /* callback for ng-click 'update list': */
-    $scope.setDataUserFromServer = function() {
+    $scope.setDataUserFromServer = function(servers) {
     	
-    	$scope.listserver = $scope.servers;
+    	alert("nome servidor: " + servers);
     	
        	$http({
     	    method: 'GET',
     	    url: 'http://localhost:8080/catalog/ServerServlet',
-    	    params: { serverList: $scope.listserver }
+    	    params: { serverList: servers }
     	
     	}).then(function(response) {
+    		$scope.apps = response.data.services;
     		 console.log(response);
     	});
     	
@@ -51,12 +52,12 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
     
     $scope.servers = ListServersFactory.query();
 
-      //$http.get('http://localhost:8080/catalog/ServerServlet')
-       //.then(function(response){
-         // $scope.appsServer = response.data;                
-        //});
+    // $http.get('http://localhost:8080/catalog/ServerJsonServlet')
+    //   .then(function(response){
+     //     $scope.appsServer = response.data;
+     //     console.log(response);
+     //   });
   }]);
-
 
 app.controller('ServerDetailCtrl', ['$scope', '$routeParams', 'UpdateServerFactory','SearchServerFactory', '$location',
   function ($scope, $routeParams, UpdateServerFactory, SearchServerFactory, $location) {

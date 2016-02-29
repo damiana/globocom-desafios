@@ -41,9 +41,12 @@
     </span>
         </a>
 
-        <div id="sm" class="sublinks collapse">
-          <a class="list-group-item small" ><span class="glyphicon glyphicon-chevron-right"></span> TESTE --- TESTE</a>
+        <div id="sm" class="sublinks collapse" ng-repeat="app in apps" >
+          
+          <a class="list-group-item small" ng-repeat="ap in app" ><span class="glyphicon glyphicon-chevron-right"></span> {{ ap }} </a>
+
         </div>
       </div>
     </div>
+ 
   </div>

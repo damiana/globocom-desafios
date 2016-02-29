@@ -21,11 +21,13 @@ public class SSHSession {
 	
 	ArrayList<String> listServices = new ArrayList<String>();
 	
-	public SSHSession(String user, String host, int port) {
+	public SSHSession(String user, String password, String host, int port) {
 		
 		this.user = user;
+		this.password = password;
 		this.host = host;
 		this.port = port;
+
 	}
 	
 	public void execCreateFile() {
@@ -37,6 +39,12 @@ public class SSHSession {
 			session = jsch.getSession(user,host,port);
 			
 			session.setUserInfo(new SSHUserInfo());
+			session.setPassword(password);
+			
+			java.util.Properties config = new java.util.Properties(); 
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+			
 			session.connect();
 			
 			String listServicesInstalled = 
