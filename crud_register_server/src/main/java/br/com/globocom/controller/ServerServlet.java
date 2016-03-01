@@ -2,23 +2,23 @@ package br.com.globocom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mysql.fabric.xmlrpc.base.Array;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import br.com.globocom.model.ServerModel;
 import br.com.globocom.ssh.SSHSession;
@@ -32,7 +32,7 @@ public class ServerServlet extends HttpServlet {
 		super();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "deprecation" })
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.setContentType("application/json");
@@ -45,55 +45,48 @@ public class ServerServlet extends HttpServlet {
 
 		LOGGER.info("\n******** SERVER-LIST PARAM  ******* " + servers +"\n");
 
+		ObjectMapper mapper = new ObjectMapper();
 
-		JsonParser jsonParser = new JsonParser();
-		JsonArray jsonArray = (JsonArray) jsonParser.parse(servers);
+		JsonFactory jsonFactory = new JsonFactory();
+		JsonParser jsonParser = jsonFactory.createJsonParser(servers);
 		
+		List<ServerModel> listServerModel = null;
 		
-		JSONObject obj = new JSONObject();
-		JSONArray listServices = new JSONArray();
+		TypeReference<List<ServerModel>> typeReference = new TypeReference<List<ServerModel>>() {};
+		listServerModel = mapper.readValue(jsonParser, typeReference);
+	    
+		ArrayList<StringWriter> serverList = new ArrayList<StringWriter>();
 		
-		for (int i = 0; i < jsonArray.size(); i++) {
-			JsonElement server = jsonParser.parse(jsonArray.get(i).toString());
+	    for (ServerModel server : listServerModel) {
+	    
+	    	StringWriter sw = new StringWriter();
+			ObjectMapper mapperServer = new ObjectMapper();
+			JsonGenerator generator = mapperServer.getFactory().createGenerator(sw);
+			JsonNode treeRootNode = mapperServer.createObjectNode(); 
 
-			//int idServer = server.getAsJsonObject().get("id_server").getAsInt();
-			String nameServer = server.getAsJsonObject().get("name_server").toString().replaceAll("\"", "");
-			String user = server.getAsJsonObject().get("username").toString().replaceAll("\"", "");
-			String host = server.getAsJsonObject().get("host").toString().replaceAll("\"", "");
-			String password = server.getAsJsonObject().get("password").toString().replaceAll("\"", "");
-			int port = server.getAsJsonObject().get("port").getAsInt();
-
-			//obj.put("server", nameServer);
+			((ObjectNode) treeRootNode).put("server", server.getName_server());
+			ArrayNode arrayNode = ((ObjectNode) treeRootNode).putArray("services");
 			
-			SSHSession sshsession = new SSHSession(user,password,host,port);
+			SSHSession sshsession = new SSHSession(server.getUsername(),server.getPassword(),server.getHost(),server.getPort());
 			sshsession.execCreateFile();
+			
+			for (String services : sshsession.getListServices()) {
+				arrayNode.add(services);
+			}
 
-			//LOGGER.info("\n SERVERRRR: " + nameServer + " LISTA SERVICOS NOS SERVIDORES DIRETO " + sshsession.getListServices().size());
-			//LOGGER.info("\n SERVERRRR: " + nameServer + " MERDAAAAAAAA " + sshsession.getListServices());
+			mapper.writeTree(generator, treeRootNode);
+			serverList.add(sw);
+	    }
 
-			//for (int j = 0; j < sshsession.getListServices().size(); j++) {
-			//	LOGGER.info(" OS SERVICOS: " + " index --> " + j +  sshsession.getListServices().get(j));
-			listServices.add(sshsession.getListServices());
-			//}
-			
-			//LOGGER.info("\n SERVERRRR merdaaaaaa: " + sshsession.getListServices() );
-			
-			obj.put("services", listServices);
-		}
+	    LOGGER.info("\n OBJECT JSON CRIADO TAMANHO" + serverList.size() +"\n");
+		LOGGER.info("\n OBJECT JSON CRIADO COM NAME SERVERS -- 1 " + serverList.get(0) +"\n");
+		//LOGGER.info("\n OBJECT JSON CRIADO COM NAME SERVERS -- 2 " + serverList.get(1) +"\n");
+		//LOGGER.info("\n OBJECT JSON CRIADO COM NAME SERVERS -- 3 " + serverList.get(2) +"\n");
 		
-		out.println(obj);
-		
-		//LOGGER.info("\n\n LOG SERVICOS MERDAAAAAAA listServices: " + listServices );
-		LOGGER.info("\n\n LOG SERVICOS TAMANHO: " + listServices.size() );
-		
-		for (int i = 0; i < listServices.size(); i++) {
-			LOGGER.info("\n\n LOG SERVICOS MERDAAAAAAA listServices: " + listServices.get(i).toString() );
-			
-		}
-		LOGGER.info("\n\n JSON COMPLETO :::: " + obj);
+	    out.print(serverList);
+	    
 		LOGGER.info("******** END log *******");
 
-	
 	}
 
 	/**

@@ -36,7 +36,7 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
     /* callback for ng-click 'update list': */
     $scope.setDataUserFromServer = function(servers) {
     	
-    	alert("nome servidor: " + servers);
+    	alert("Atualizando servidores: ...");
     	
        	$http({
     	    method: 'GET',
@@ -44,19 +44,13 @@ app.controller('ServerListCtrl', ['$scope', 'DeleteServerFactory','ListServersFa
     	    params: { serverList: servers }
     	
     	}).then(function(response) {
-    		$scope.apps = response.data.services;
+    		$scope.listServices = response.data;
     		 console.log(response);
     	});
-    	
     };
     
     $scope.servers = ListServersFactory.query();
 
-    // $http.get('http://localhost:8080/catalog/ServerJsonServlet')
-    //   .then(function(response){
-     //     $scope.appsServer = response.data;
-     //     console.log(response);
-     //   });
   }]);
 
 app.controller('ServerDetailCtrl', ['$scope', '$routeParams', 'UpdateServerFactory','SearchServerFactory', '$location',

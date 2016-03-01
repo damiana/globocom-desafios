@@ -1,0 +1,14 @@
+[
+ {
+  "server"   : "videoplay",
+  "services" : ["mysql","apache","tomcat","nginx","java","vim-gnome"]
+},
+{
+  "server"   : "musicplay",
+  "services" : ["grub-common","rsync","nfs","ssh","java"]
+},
+{
+  "server"   : "datacenter",
+  "services" : ["cron","resolvconf"]
+}
+]
