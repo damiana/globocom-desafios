@@ -28,17 +28,15 @@ public class ServerJsonServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("application/json; charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();		
-		String jsonServices = (String)request.getParameter("jsonServices");
+		Object jsonServices = request.getSession().getAttribute("serverList");
 		
 		LOGGER.info("\n SERVET JSON " + jsonServices);
 		
 		out.println(jsonServices);
 		out.flush();
-		
 	}
 
 	/**

@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -84,6 +85,11 @@ public class ServerServlet extends HttpServlet {
 		//LOGGER.info("\n OBJECT JSON CRIADO COM NAME SERVERS -- 3 " + serverList.get(2) +"\n");
 		
 	    out.print(serverList);
+	    
+	    //send serverList to ServerJsonServlet
+	    HttpSession serverSession = request.getSession();
+	    serverSession.setAttribute("serverList", serverList);	    
+	    getServletContext().getRequestDispatcher("/ServerJsonServlet").forward(request,response);
 	    
 		LOGGER.info("******** END log *******");
 
