@@ -1,0 +1,11 @@
+Melhoras no desafio 1:
+
+- o codigo hoje esta com path absoluto, está rodando como localhost (isso pode ser um problema para as urls do serviço e os scripts do angular.)
+
+- mysql também está rodando no localhost
+
+- atualmente estou listando somente os serviços instalados, os ativos e inativos. Porque as listar os packages eram muitos e alista ficou enorme.
+
+- fiz poucos testes
+
+-  
